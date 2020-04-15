@@ -31,4 +31,7 @@ const SignIn = () => {
   );
 };
 
-export default withIsAuth(SignIn);
+const ComponentWrapper = withIsAuth(SignIn);
+ComponentWrapper.hideHeader = true;
+
+export default ComponentWrapper;

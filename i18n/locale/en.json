@@ -1,11 +1,13 @@
 {
-  "helloWorld": "Hello World",
   "common": {
     "ok": "OK",
     "success": "success",
     "send": "Send",
     "cancel": "Cancel",
     "submit": "Submit"
+  },
+  "loaders": {
+    "laoding": "Loading..."
   },
   "auth": {
     "offline": "Please check your Internet connection",

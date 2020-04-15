@@ -83,7 +83,7 @@ export class HttpService {
 }
 
 const clientConfig = {
-  baseURL: config.API_BASE_URL || 'http://localhost:8000/api'
+  baseURL: config.API_BASE_URL
 };
 
 export default new HttpService(clientConfig);

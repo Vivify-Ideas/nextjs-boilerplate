@@ -25,14 +25,14 @@ class MyApp extends App {
       pageProps = await Component.getInitialProps({ ctx });
     }
 
-    return { pageProps, redirect: Component.redirect };
+    return { pageProps, hideHeader: Component.hideHeader };
   }
 
   render() {
-    const { Component, pageProps, store } = this.props;
+    const { Component, pageProps, store, hideHeader } = this.props;
     return (
       <Provider store={store}>
-        <Layout>
+        <Layout hideHeader={hideHeader}>
           <Component {...pageProps} />
         </Layout>
       </Provider>

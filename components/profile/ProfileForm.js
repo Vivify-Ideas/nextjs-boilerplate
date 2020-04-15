@@ -29,7 +29,7 @@ const ProfileForm = ({ user, onSubmit, isLoading }) => {
             {dirty && <button type="submit">{$t('common.submit')}</button>}
           </Form>
         )}
-      </Formik>{' '}
+      </Formik>
     </LoaderWrapper>
   );
 };

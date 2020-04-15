@@ -8,7 +8,8 @@ npm-debug.log
 certs
 .idea
 .env
-# .env.docker
+.vscode/
+yarn-error.log
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
