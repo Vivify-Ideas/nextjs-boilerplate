@@ -2,6 +2,8 @@
 
 If you are using our NextJS boilerplate we recommend you use it with our [laravel](https://github.com/Vivify-Ideas/laravel-boilerplate) boilerplate.
 
+Node version required is 10.16
+
 ## **Built in functions**
 
 - HTTPS mode in dev
@@ -56,3 +58,7 @@ $t('common.ok');
 For `RouteGuard` we use HOC, you can find examples in `utils/hoc`.
 
 Logged in user is beeing `server side rendered` you can find the code in `pages/_app.js` in `getInitialProps` method.
+
+## **HTTPS Mode**
+
+To run this application in HTTPS mode you will need to generate certificates localy and put them in `certs` folder in root of your project. The required certificate files are `server.key` and `server.ctr`. After that you can run `yarn dev-https` command to run it in HTTPS.
