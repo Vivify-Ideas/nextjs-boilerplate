@@ -6,10 +6,11 @@ const LoaderWrapper = ({
   isLoading,
   loadingText = $t('loaders.loading'),
   children
-}) => (isLoading ? <p>{loadingText}</p> : children);
+}) => <div> {isLoading ? <p>{loadingText}</p> : children} </div>;
 
 LoaderWrapper.propTypes = {
   isLoading: PropTypes.bool,
+  loadingText: PropTypes.string,
   children: PropTypes.node
 };
 

@@ -6,9 +6,15 @@ import { SIGN_UP } from '../actionTypes/SignUpActionTypes';
 import {
   USER_GET,
   USER_SIGN_OUT,
-  USER_EDIT
+  USER_EDIT,
+  PASSWORD_CHANGE
 } from '../actionTypes/UserActionTypes';
-import { handleUserGet, handleUserSignOut, handleUserEdit } from './UserSagas';
+import {
+  handleUserGet,
+  handleUserSignOut,
+  handleUserEdit,
+  handlePasswordChange
+} from './UserSagas';
 import {
   FORGOT_PASSWORD_SEND,
   RESET_PASSWORD_SEND
@@ -33,6 +39,7 @@ export default function* rootSaga() {
     takeLatest(RESET_PASSWORD_SEND, handleResetPassword),
     takeLatest(FACEBOOK_LOGIN, handleFacebookLogin),
     takeLatest(GOOGLE_LOGIN, handleGoogleLogin),
-    takeLatest(USER_EDIT, handleUserEdit)
+    takeLatest(USER_EDIT, handleUserEdit),
+    takeLatest(PASSWORD_CHANGE, handlePasswordChange)
   ]);
 }

@@ -28,10 +28,24 @@ const makeSelectUserLoader = () =>
     substate => substate.loader
   );
 
+const makeSelectUserPasswordChangeState = () =>
+  createSelector(
+    selectUserDomain,
+    substate => substate.passwordChanged
+  );
+
+const makeSelectUserPasswordLoader = () =>
+  createSelector(
+    selectUserDomain,
+    substate => substate.passwordChangeLoader
+  );
+
 export default makeSelectUser;
 export {
   selectUserDomain,
   makeSelectUserData,
   makeSelectUserAuthStatus,
-  makeSelectUserLoader
+  makeSelectUserLoader,
+  makeSelectUserPasswordChangeState,
+  makeSelectUserPasswordLoader
 };

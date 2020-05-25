@@ -4,11 +4,14 @@ import Router from 'next/router';
 import {
   userLoaderSet,
   userSet,
-  userAuthStatusSet
+  userAuthStatusSet,
+  setPasswordLoader,
+  setChangePasswordSuccess
 } from '../actions/UserActions';
 import UserService from '../../services/UserService';
 import AuthService from '../../services/AuthService';
 import { PAGES } from '../../constants/routes';
+import { RESPONSE_STATES } from '../../constants';
 
 export function* handleUserGet() {
   try {
@@ -52,5 +55,22 @@ export function* handleUserEdit({ payload }) {
     console.log(error);
   } finally {
     yield put(userLoaderSet(false));
+  }
+}
+
+export function* handlePasswordChange({ payload }) {
+  try {
+    yield put(setChangePasswordSuccess(RESPONSE_STATES.NO_RESPONSE));
+    yield put(setPasswordLoader(true));
+    yield call(UserService.changePassword, payload);
+    yield put(setChangePasswordSuccess(RESPONSE_STATES.SUCCESS));
+  } catch (error) {
+    if (error.response.status === 422) {
+      yield put(setChangePasswordSuccess(RESPONSE_STATES.ERROR));
+    } else {
+      console.log(error);
+    }
+  } finally {
+    yield put(setPasswordLoader(false));
   }
 }
