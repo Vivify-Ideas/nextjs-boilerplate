@@ -2,6 +2,7 @@ import BaseApiService from './BaseApiService';
 
 const ENDPOINTS = {
   ME: '/auth/me',
+  CHANGE_PASSWORD: '/user/change-password',
   USER: '/user'
 };
 
@@ -9,9 +10,9 @@ class UserService extends BaseApiService {
   me = () => this.apiClient.get(ENDPOINTS.ME);
 
   edit = data => {
-    let formData = new FormData();
+    const formData = new FormData();
     if (data.avatar) {
-      const uri = data.avatar.uri;
+      const { uri } = data.avatar;
       const name = uri.split('/').pop();
       const type = 'image/jpeg';
       formData.append('avatar', { uri, name, type });
@@ -22,6 +23,8 @@ class UserService extends BaseApiService {
 
     return this.apiClient.post(ENDPOINTS.USER, formData);
   };
+
+  changePassword = data => this.apiClient.post(ENDPOINTS.CHANGE_PASSWORD, data);
 }
 
 export default new UserService();

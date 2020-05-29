@@ -4,7 +4,10 @@ import {
   USER_LOADER_SET,
   USER_AUTH_STATUS_SET,
   USER_SIGN_OUT,
-  USER_EDIT
+  USER_EDIT,
+  PASSWORD_CHANGE,
+  PASSWORD_CHANGE_SUCCESS,
+  PASSWORD_CHANGE_LOADER_SET
 } from '../actionTypes/UserActionTypes';
 
 export const userGet = () => ({
@@ -32,5 +35,20 @@ export const userSignOut = () => ({
 
 export const userEdit = payload => ({
   type: USER_EDIT,
+  payload
+});
+
+export const changePassword = payload => ({
+  type: PASSWORD_CHANGE,
+  payload
+});
+
+export const setChangePasswordSuccess = payload => ({
+  type: PASSWORD_CHANGE_SUCCESS,
+  payload
+});
+
+export const setPasswordLoader = payload => ({
+  type: PASSWORD_CHANGE_LOADER_SET,
   payload
 });
