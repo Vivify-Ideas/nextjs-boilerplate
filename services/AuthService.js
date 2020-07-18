@@ -3,7 +3,7 @@ import jsCookie from 'js-cookie';
 import BaseApiService from './BaseApiService';
 
 const ENDPOINTS = {
-  LOGIN: '/auth/login',
+  LOGIN: '/api/auth/login', // replace Next API endpoint
   SIGN_UP: '/auth/register',
   LOGOUT: '/auth/logout',
   FORGOT_PASSWORD: '/user/forgot-password',
@@ -24,7 +24,7 @@ class AuthService extends BaseApiService {
     }
   }
 
-  login = async loginData => {
+  login = async (loginData) => {
     const { data } = await this.apiClient.post(ENDPOINTS.LOGIN, loginData);
 
     this.createSession(data);
@@ -34,7 +34,7 @@ class AuthService extends BaseApiService {
     return data;
   };
 
-  googleLogin = async googleLoginData => {
+  googleLogin = async (googleLoginData) => {
     const { data } = await this.apiClient.post(
       ENDPOINTS.GOOGLE,
       googleLoginData
@@ -47,7 +47,7 @@ class AuthService extends BaseApiService {
     return data;
   };
 
-  facebookLogin = async facebookLoginData => {
+  facebookLogin = async (facebookLoginData) => {
     const { data } = await this.apiClient.post(
       ENDPOINTS.FACEBOOK,
       facebookLoginData
@@ -60,7 +60,7 @@ class AuthService extends BaseApiService {
     return data;
   };
 
-  signUp = async signUpData => {
+  signUp = async (signUpData) => {
     const { data } = await this.apiClient.post(ENDPOINTS.SIGN_UP, signUpData);
 
     this.createSession(data);
@@ -78,11 +78,12 @@ class AuthService extends BaseApiService {
     this.http.setUnauthorizedCallback(() => {});
   };
 
-  forgotPassword = data => this.apiClient.post(ENDPOINTS.FORGOT_PASSWORD, data);
+  forgotPassword = (data) =>
+    this.apiClient.post(ENDPOINTS.FORGOT_PASSWORD, data);
 
-  resetPassword = data => this.apiClient.post(ENDPOINTS.RESET_PASSWORD, data);
+  resetPassword = (data) => this.apiClient.post(ENDPOINTS.RESET_PASSWORD, data);
 
-  createSession = token => {
+  createSession = (token) => {
     jsCookie.set('access_token', token.access_token);
     jsCookie.set('refresh_token', token.refresh_token);
   };
@@ -94,7 +95,7 @@ class AuthService extends BaseApiService {
     this.removeAuthHeader();
   };
 
-  attachAuthHeader = token => {
+  attachAuthHeader = (token) => {
     this.http.attachHeaders({
       Authorization: `Bearer ${token}`
     });

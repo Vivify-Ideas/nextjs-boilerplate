@@ -1,7 +1,7 @@
 import BaseApiService from './BaseApiService';
 
 const ENDPOINTS = {
-  ME: '/auth/me',
+  ME: '/api/auth/me', // replace Next API endpoint
   CHANGE_PASSWORD: '/user/change-password',
   USER: '/user'
 };
@@ -9,7 +9,7 @@ const ENDPOINTS = {
 class UserService extends BaseApiService {
   me = () => this.apiClient.get(ENDPOINTS.ME);
 
-  edit = data => {
+  edit = (data) => {
     const formData = new FormData();
     if (data.avatar) {
       const { uri } = data.avatar;
@@ -24,7 +24,8 @@ class UserService extends BaseApiService {
     return this.apiClient.post(ENDPOINTS.USER, formData);
   };
 
-  changePassword = data => this.apiClient.post(ENDPOINTS.CHANGE_PASSWORD, data);
+  changePassword = (data) =>
+    this.apiClient.post(ENDPOINTS.CHANGE_PASSWORD, data);
 }
 
 export default new UserService();

@@ -3,5 +3,6 @@ import getConfig from 'next/config';
 const { publicRuntimeConfig } = getConfig();
 
 export default {
-  ...publicRuntimeConfig
+  ...publicRuntimeConfig,
+  IS_DEV: process.env.NODE_ENV === 'development'
 };

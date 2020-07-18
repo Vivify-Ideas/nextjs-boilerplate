@@ -1,11 +1,9 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import App from 'next/app';
 import React from 'react';
-import { Provider } from 'react-redux';
-import withRedux from 'next-redux-wrapper';
-import withReduxSaga from 'next-redux-saga';
 import cookies from 'next-cookies';
 
-import createStore from '../store';
+import { wrapper } from '../store';
 import AuthService from '../services/AuthService';
 import { userGet } from '../store/actions/UserActions';
 import Layout from '../components/shared/layout/Layout';
@@ -29,15 +27,13 @@ class MyApp extends App {
   }
 
   render() {
-    const { Component, pageProps, store, hideHeader } = this.props;
+    const { Component, pageProps, hideHeader } = this.props;
     return (
-      <Provider store={store}>
-        <Layout hideHeader={hideHeader}>
-          <Component {...pageProps} />
-        </Layout>
-      </Provider>
+      <Layout hideHeader={hideHeader}>
+        <Component {...pageProps} />
+      </Layout>
     );
   }
 }
 
-export default withRedux(createStore)(withReduxSaga(MyApp));
+export default wrapper.withRedux(MyApp);
