@@ -1,66 +1,25 @@
-import React, { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 
 import { ResetPasswordForm } from '../components/auth/ResetPasswordForm';
-import {
-  resetPasswordSend,
-  resetPasswordSuccessSet
-} from '../store/actions/PasswordResetActions';
-import { RESPONSE_STATES, NAVIGATION_DELAY_TIME } from '../constants';
-import {
-  makeSelectPasswordLoader,
-  makeSelectResetPasswordSuccess
-} from '../store/selectors/PasswordResetSelector';
-import { useRouter } from 'next/dist/client/router';
-import { PAGES } from '../constants/routes';
+import { useAuthStore } from '../store/AuthStore';
+import $t from '../i18n';
 
 const ResetPassword = () => {
-  const dispatch = useDispatch();
-  const router = useRouter();
-
-  const isLoading = useSelector(makeSelectPasswordLoader());
-  const resetPasswordSuccess = useSelector(makeSelectResetPasswordSuccess());
-
-  const handleResetPassword = useCallback(
-    data =>
-      dispatch(
-        resetPasswordSend({
-          ...data,
-          token: router.query.forgot_password_token
-        })
-      ),
-    [dispatch]
-  );
-  const handleResetResetPasswordState = () =>
-    dispatch(resetPasswordSuccessSet(RESPONSE_STATES.NO_RESPONSE));
-
-  useEffect(() => {
-    if (resetPasswordSuccess === RESPONSE_STATES.SUCCESS) {
-      setTimeout(() => {
-        router.push(PAGES.SIGN_IN);
-      }, NAVIGATION_DELAY_TIME);
-    }
-  }, [resetPasswordSuccess]);
-
-  useEffect(() => {
-    return () => handleResetResetPasswordState();
-  }, []);
-
-  const resetPasswordError =
-    resetPasswordSuccess !== RESPONSE_STATES.NO_RESPONSE &&
-    resetPasswordSuccess !== RESPONSE_STATES.SUCCESS;
+  const { isLoading, resetPasswordErrors, actions } = useAuthStore((state) => ({
+    isLoading: state.resetPassword.loader,
+    resetPasswordErrors: state.resetPassword.error,
+    actions: state.actions
+  }));
 
   return (
     <div>
       Reset Password
       <ResetPasswordForm
-        resetPasswordError={resetPasswordError ? resetPasswordSuccess : false}
+        resetPasswordError={!!resetPasswordErrors}
         isLoading={isLoading}
-        onSubmit={handleResetPassword}
+        onSubmit={actions.resetPassword}
       />
-      {resetPasswordSuccess === RESPONSE_STATES.SUCCESS && (
-        <p>{$t('auth.passwordResetSucces')}</p>
-      )}
+      {!resetPasswordErrors && <p>{$t('auth.passwordResetSucces')}</p>}
     </div>
   );
 };

@@ -1,39 +1,31 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import App from 'next/app';
 import React from 'react';
 import cookies from 'next-cookies';
 
-import { wrapper } from '../store';
 import AuthService from '../services/AuthService';
-import { userGet } from '../store/actions/UserActions';
 import Layout from '../components/shared/layout/Layout';
 
-class MyApp extends App {
-  static async getInitialProps({ Component, ctx }) {
-    let pageProps = {};
+// eslint-disable-next-line react/prop-types
+const MyApp = ({ Component, pageProps, hideHeader }) => (
+  <Layout hideHeader={hideHeader}>
+    <Component {...pageProps} />
+  </Layout>
+);
 
-    const auth = cookies(ctx).access_token;
+MyApp.getInitialProps = async ({ Component, ctx }) => {
+  let pageProps = {};
 
-    if (auth) {
-      AuthService.attachAuthHeader(auth);
-      ctx.store.dispatch(userGet());
-    }
+  const auth = cookies(ctx).access_token;
 
-    if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps({ ctx });
-    }
-
-    return { pageProps, hideHeader: Component.hideHeader };
+  if (auth) {
+    AuthService.attachAuthHeader(auth);
   }
 
-  render() {
-    const { Component, pageProps, hideHeader } = this.props;
-    return (
-      <Layout hideHeader={hideHeader}>
-        <Component {...pageProps} />
-      </Layout>
-    );
+  if (Component.getInitialProps) {
+    pageProps = await Component.getInitialProps({ ctx });
   }
-}
 
-export default wrapper.withRedux(MyApp);
+  return { pageProps, hideHeader: Component.hideHeader };
+};
+
+export default MyApp;

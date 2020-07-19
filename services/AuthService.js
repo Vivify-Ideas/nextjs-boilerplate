@@ -3,11 +3,14 @@ import jsCookie from 'js-cookie';
 import BaseApiService from './BaseApiService';
 
 const ENDPOINTS = {
-  LOGIN: '/api/auth/login', // replace Next API endpoint
-  SIGN_UP: '/auth/register',
-  LOGOUT: '/auth/logout',
-  FORGOT_PASSWORD: '/user/forgot-password',
-  RESET_PASSWORD: '/user/reset-password',
+  ME: '/api/auth/me',
+  EDIT_PROFILE: '/api/auth/me',
+  LOGIN: '/api/auth/login',
+  SIGN_UP: '/api/auth/register',
+  LOGOUT: '/api/auth/logout',
+  FORGOT_PASSWORD: '/api/auth/forgot-password',
+  RESET_PASSWORD: '/api/auth/reset-password',
+  CHANGE_PASSWORD: '/api/auth/change-password',
   FACEBOOK: '/auth/social/facebook',
   GOOGLE: '/auth/social/google'
 };
@@ -23,6 +26,23 @@ class AuthService extends BaseApiService {
       this.http.setUnauthorizedCallback(() => this.destroySession());
     }
   }
+
+  getUser = () => this.apiClient.get(ENDPOINTS.ME);
+
+  updateProfile = (data) => {
+    const formData = new FormData();
+    if (data.avatar) {
+      const { uri } = data.avatar;
+      const name = uri.split('/').pop();
+      const type = 'image/jpeg';
+      formData.append('avatar', { uri, name, type });
+    }
+
+    formData.append('first_name', data.first_name);
+    formData.append('last_name', data.last_name);
+
+    return this.apiClient.post(ENDPOINTS.EDIT_PROFILE, formData);
+  };
 
   login = async (loginData) => {
     const { data } = await this.apiClient.post(ENDPOINTS.LOGIN, loginData);
@@ -60,7 +80,7 @@ class AuthService extends BaseApiService {
     return data;
   };
 
-  signUp = async (signUpData) => {
+  register = async (signUpData) => {
     const { data } = await this.apiClient.post(ENDPOINTS.SIGN_UP, signUpData);
 
     this.createSession(data);
@@ -82,6 +102,9 @@ class AuthService extends BaseApiService {
     this.apiClient.post(ENDPOINTS.FORGOT_PASSWORD, data);
 
   resetPassword = (data) => this.apiClient.post(ENDPOINTS.RESET_PASSWORD, data);
+
+  changePassword = (data) =>
+    this.apiClient.post(ENDPOINTS.CHANGE_PASSWORD, data);
 
   createSession = (token) => {
     jsCookie.set('access_token', token.access_token);
@@ -118,4 +141,6 @@ class AuthService extends BaseApiService {
   };
 }
 
-export default new AuthService();
+export const authService = new AuthService();
+
+export default authService;

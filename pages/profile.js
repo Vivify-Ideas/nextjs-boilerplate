@@ -1,49 +1,41 @@
-import React, { useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
 
-import withIsPrivate from '../utils/hoc/withIsPrivate';
+import withIsAuth from '../utils/hoc/withIsAuth';
 import ProfileForm from '../components/profile/ProfileForm';
-import {
-  makeSelectUserData,
-  makeSelectUserLoader,
-  makeSelectUserPasswordChangeState,
-  makeSelectUserPasswordLoader
-} from '../store/selectors/UserSelector';
-import { userEdit, changePassword } from '../store/actions/UserActions';
 import ChangePasswordForm from '../components/profile/ChangePasswordForm';
+import { useAuthStore } from '../store/AuthStore';
 
 const Profile = () => {
-  const dispatch = useDispatch();
-
-  const user = useSelector(makeSelectUserData());
-  const isUserLoading = useSelector(makeSelectUserLoader());
-  const passwordChangeState = useSelector(makeSelectUserPasswordChangeState());
-  const isPasswordFormLoading = useSelector(makeSelectUserPasswordLoader());
-
-  const handleProfileEdit = useCallback(data => dispatch(userEdit(data)), [
-    dispatch
-  ]);
-
-  const handlePasswordChange = useCallback(
-    data => dispatch(changePassword(data)),
-    [dispatch]
+  const { user, userLoading, updatePassword, actions } = useAuthStore(
+    (state) => ({
+      user: state.user,
+      userLoading: state.userLoading,
+      updatePassword: state.updatePassword,
+      actions: state.actions
+    })
   );
+
+  const {
+    loader: isPasswordFormLoading,
+    error: passwordErrors,
+    updated: passwordUpdateCompleted
+  } = updatePassword;
 
   return (
     <div>
       Profile
       <ProfileForm
         user={user}
-        isLoading={isUserLoading}
-        onSubmit={handleProfileEdit}
+        isLoading={userLoading}
+        onSubmit={actions.updateProfile}
       />
       <ChangePasswordForm
-        onSubmit={handlePasswordChange}
+        onSubmit={actions.updatePassword}
         isLoading={isPasswordFormLoading}
-        passwordChangeState={passwordChangeState}
+        errors={passwordErrors}
+        completed={passwordUpdateCompleted}
       />
     </div>
   );
 };
-
-export default withIsPrivate(Profile);
+export default withIsAuth(Profile);

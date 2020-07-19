@@ -22,8 +22,9 @@ app.prepare().then(() => {
 
       handle(req, res, parsedUrl);
     })
-    .listen(PORT, err => {
+    .listen(PORT, (err) => {
       if (err) throw err;
+      // eslint-disable-next-line no-console
       console.log('> Ready on https://localhost:', PORT);
     });
 });

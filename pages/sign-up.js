@@ -1,27 +1,21 @@
-import React, { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 
 import { SignUpForm } from '../components/auth/SignUpForm';
-import {
-  makeSelectSignUpError,
-  makeSelectSignUpLoader
-} from '../store/selectors/SignUpSelector';
-import { signUp } from '../store/actions/SignUpActions';
-import withIsAuth from '../utils/hoc/withIsAuth';
+import withIsGuest from '../utils/hoc/withIsGuest';
+import { useAuthStore } from '../store/AuthStore';
 
 const SignUp = () => {
-  const dispatch = useDispatch();
-
-  const signUpError = useSelector(makeSelectSignUpError());
-  const isLoading = useSelector(makeSelectSignUpLoader());
-
-  const handleSignUp = useCallback(data => dispatch(signUp(data)), [dispatch]);
+  const { isLoading, signUpError, actions } = useAuthStore((state) => ({
+    isLoading: state.register.loader,
+    sigUpError: state.register.error,
+    actions: state.actions
+  }));
 
   return (
     <div>
       Sign Up Page
       <SignUpForm
-        onSubmit={handleSignUp}
+        onSubmit={actions.register}
         signUpErrors={signUpError}
         isLoading={isLoading}
       />
@@ -29,7 +23,7 @@ const SignUp = () => {
   );
 };
 
-const ComponentWrapper = withIsAuth(SignUp);
+const ComponentWrapper = withIsGuest(SignUp);
 ComponentWrapper.hideHeader = true;
 
 export default ComponentWrapper;

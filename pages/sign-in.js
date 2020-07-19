@@ -1,37 +1,32 @@
-import React, { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 
+import { useAuthStore } from '../store/AuthStore';
 import { SignInForm } from '../components/auth/SignInForm';
-import {
-  makeSelectSignInError,
-  makeSelectSignInLoader
-} from '../store/selectors/SignInSelector';
-import { signIn } from '../store/actions/SignInActions';
-import SocialLoginButtons from '../components/auth/SocialLoginButtons';
-import withIsAuth from '../utils/hoc/withIsAuth';
+// import SocialLoginButtons from '../components/auth/SocialLoginButtons';
+import withIsGuest from '../utils/hoc/withIsGuest';
 
 const SignIn = () => {
-  const dispatch = useDispatch();
+  const { login, actions } = useAuthStore((state) => ({
+    login: state.login,
+    actions: state.actions
+  }));
 
-  const signInError = useSelector(makeSelectSignInError());
-  const isLoading = useSelector(makeSelectSignInLoader());
-
-  const handleSignIn = useCallback(data => dispatch(signIn(data)));
+  const { signInError, isLoading } = login;
 
   return (
     <div>
       Sign In Page
       <SignInForm
-        onSubmit={handleSignIn}
+        onSubmit={actions.login}
         signInError={signInError}
         isLoading={isLoading}
       />
-      <SocialLoginButtons />
+      {/* <SocialLoginButtons /> */}
     </div>
   );
 };
 
-const ComponentWrapper = withIsAuth(SignIn);
+const ComponentWrapper = withIsGuest(SignIn);
 ComponentWrapper.hideHeader = true;
 
 export default ComponentWrapper;

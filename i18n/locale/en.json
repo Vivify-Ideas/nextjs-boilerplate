@@ -59,7 +59,8 @@
       "change": "Change",
       "invalidOldPassword": "Old password is incorrect.",
       "passwordChanged": "Password Changed",
-      "passwordChangedSuccess": "Password has been changed"
+      "passwordChangedSuccess": "Password has been changed",
+      "success": "Password has been successfully updated!"
     }
   }
 }

@@ -1,50 +1,27 @@
-import React, { useCallback, useEffect } from 'react';
+import React from 'react';
 
 import { ForgotPasswordForm } from '../components/auth/ForgotPasswordForm';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  makeSelectPasswordLoader,
-  makeSelectForgotPasswordSuccess
-} from '../store/selectors/PasswordResetSelector';
-import {
-  forgotPasswordSend,
-  forgotPasswordSuccessSet
-} from '../store/actions/PasswordResetActions';
-import { RESPONSE_STATES } from '../constants';
 import $t from '../i18n';
+import { useAuthStore } from '../store/AuthStore';
 
 const ForgotPassword = () => {
-  const dispatch = useDispatch();
-
-  const isLoading = useSelector(makeSelectPasswordLoader());
-  const forgotPasswordSuccess = useSelector(makeSelectForgotPasswordSuccess());
-
-  const handleForgotPassword = useCallback(
-    data => dispatch(forgotPasswordSend(data)),
-    [dispatch]
+  const { isLoading, forgotPasswordErrors, actions } = useAuthStore(
+    (state) => ({
+      isLoading: state.forgotPassword.loader,
+      forgotPasswordErrors: state.forgotPassword.error,
+      actions: state.actions
+    })
   );
-  const handleResetForgotPasswordState = () =>
-    dispatch(forgotPasswordSuccessSet(RESPONSE_STATES.NO_RESPONSE));
-
-  useEffect(() => {
-    return () => handleResetForgotPasswordState();
-  }, []);
-
-  const forgotPasswordError =
-    forgotPasswordSuccess !== RESPONSE_STATES.NO_RESPONSE &&
-    forgotPasswordSuccess !== RESPONSE_STATES.SUCCESS;
 
   return (
     <div>
       Forgot Password
       <ForgotPasswordForm
-        onSubmit={handleForgotPassword}
+        onSubmit={actions.forgotPassword}
         isLoading={isLoading}
-        forgotPasswordError={forgotPasswordError && forgotPasswordSuccess}
+        forgotPasswordError={!!forgotPasswordErrors}
       />
-      {forgotPasswordSuccess === RESPONSE_STATES.SUCCESS && (
-        <p>{$t('auth.forgotPasswordSuccess')}</p>
-      )}
+      {!forgotPasswordErrors && <p>{$t('auth.forgotPasswordSuccess')}</p>}
     </div>
   );
 };

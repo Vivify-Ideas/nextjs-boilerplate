@@ -38,7 +38,7 @@ export const SignUpForm = ({ onSubmit, signUpErrors, isLoading }) => (
             component={TextInputWithLabel}
             placeholder={$t('auth.enterEmail')}
           />
-          {!!signUpErrors.email && <p>{signUpErrors.email}</p>}
+          {!!signUpErrors?.email && <p>{signUpErrors?.email}</p>}
           <Field
             name="password"
             component={PasswordInputWithLabel}
