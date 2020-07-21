@@ -1,15 +1,12 @@
 import React from 'react';
 
 import { ResetPasswordForm } from '../components/auth/ResetPasswordForm';
-import { useAuthStore } from '../store/AuthStore';
+import { useAuthStore } from '../store';
 import $t from '../i18n';
 
 const ResetPassword = () => {
-  const { isLoading, resetPasswordErrors, actions } = useAuthStore((state) => ({
-    isLoading: state.resetPassword.loader,
-    resetPasswordErrors: state.resetPassword.error,
-    actions: state.actions
-  }));
+  const { resetPassword, actions } = useAuthStore(['resetPassword', 'actions']);
+  const { loader: isLoading, error: resetPasswordErrors } = resetPassword;
 
   return (
     <div>

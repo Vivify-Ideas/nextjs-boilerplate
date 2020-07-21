@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 import $t from '../../../i18n';
 import { PAGES } from '../../../constants/routes';
-import { useAuthStore } from '../../../store/AuthStore';
+import { useAuthStore } from '../../../store';
 
 const HeaderAuth = ({ user, handleSignOut }) => (
   <div>
@@ -30,11 +30,8 @@ const HeaderContent = ({ auth, user, handleSignOut, navigateToSignIn }) =>
 
 const Header = () => {
   const router = useRouter();
-  const { auth, user, actions } = useAuthStore((state) => ({
-    auth: state.auth,
-    user: state.user,
-    actions: state.actions
-  }));
+
+  const { auth, user, actions } = useAuthStore(['auth', 'user', 'actions']);
 
   const handleSignOut = () => actions.logout();
   const navigateToSignIn = () => router.push(PAGES.SIGN_IN);

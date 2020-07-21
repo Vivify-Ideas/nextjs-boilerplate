@@ -1,11 +1,13 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import cookies from 'next-cookies';
+import merge from 'lodash/merge';
 
 import AuthService from '../services/AuthService';
 import Layout from '../components/shared/layout/Layout';
+import { withZustand } from '../utils/hoc/withZustand';
 
-// eslint-disable-next-line react/prop-types
 const MyApp = ({ Component, pageProps, hideHeader }) => (
   <Layout hideHeader={hideHeader}>
     <Component {...pageProps} />
@@ -15,17 +17,30 @@ const MyApp = ({ Component, pageProps, hideHeader }) => (
 MyApp.getInitialProps = async ({ Component, ctx }) => {
   let pageProps = {};
 
-  const auth = cookies(ctx).access_token;
+  const accessToken = cookies(ctx).access_token;
 
-  if (auth) {
-    AuthService.attachAuthHeader(auth);
+  let user = {};
+  if (accessToken) {
+    AuthService.attachAuthHeader(accessToken);
+    const { data: userData } = await AuthService.getUser();
+    user = userData;
   }
 
   if (Component.getInitialProps) {
     pageProps = await Component.getInitialProps({ ctx });
   }
 
-  return { pageProps, hideHeader: Component.hideHeader };
+  const initialState = merge(
+    {},
+    { auth: { auth: !!accessToken, user } },
+    pageProps.initialState || {}
+  );
+
+  return {
+    pageProps,
+    hideHeader: Component.hideHeader,
+    initialState
+  };
 };
 
-export default MyApp;
+export default withZustand(MyApp);

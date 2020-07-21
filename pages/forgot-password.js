@@ -2,16 +2,14 @@ import React from 'react';
 
 import { ForgotPasswordForm } from '../components/auth/ForgotPasswordForm';
 import $t from '../i18n';
-import { useAuthStore } from '../store/AuthStore';
+import { useAuthStore } from '../store';
 
 const ForgotPassword = () => {
-  const { isLoading, forgotPasswordErrors, actions } = useAuthStore(
-    (state) => ({
-      isLoading: state.forgotPassword.loader,
-      forgotPasswordErrors: state.forgotPassword.error,
-      actions: state.actions
-    })
-  );
+  const { forgotPassword, actions } = useAuthStore([
+    'forgotPassword',
+    'actions'
+  ]);
+  const { loader: isLoading, error: forgotPasswordErrors } = forgotPassword;
 
   return (
     <div>

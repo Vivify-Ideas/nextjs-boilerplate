@@ -2,21 +2,18 @@ import React from 'react';
 
 import { SignUpForm } from '../components/auth/SignUpForm';
 import withIsGuest from '../utils/hoc/withIsGuest';
-import { useAuthStore } from '../store/AuthStore';
+import { useAuthStore } from '../store';
 
 const SignUp = () => {
-  const { isLoading, signUpError, actions } = useAuthStore((state) => ({
-    isLoading: state.register.loader,
-    sigUpError: state.register.error,
-    actions: state.actions
-  }));
+  const { register, actions } = useAuthStore(['register', 'actions']);
+  const { loader: isLoading, error: signUpErrors } = register;
 
   return (
     <div>
       Sign Up Page
       <SignUpForm
         onSubmit={actions.register}
-        signUpErrors={signUpError}
+        signUpErrors={signUpErrors}
         isLoading={isLoading}
       />
     </div>
