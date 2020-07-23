@@ -8,7 +8,7 @@ import {
 } from '../store/selectors/SignInSelector';
 import { signIn } from '../store/actions/SignInActions';
 import SocialLoginButtons from '../components/auth/SocialLoginButtons';
-import withIsAuth from '../utils/hoc/withIsAuth';
+import withGuest from '../utils/hoc/withGuest';
 
 const SignIn = () => {
   const dispatch = useDispatch();
@@ -16,7 +16,7 @@ const SignIn = () => {
   const signInError = useSelector(makeSelectSignInError());
   const isLoading = useSelector(makeSelectSignInLoader());
 
-  const handleSignIn = useCallback(data => dispatch(signIn(data)));
+  const handleSignIn = useCallback((data) => dispatch(signIn(data)));
 
   return (
     <div>
@@ -31,7 +31,7 @@ const SignIn = () => {
   );
 };
 
-const ComponentWrapper = withIsAuth(SignIn);
+const ComponentWrapper = withGuest(SignIn);
 ComponentWrapper.hideHeader = true;
 
 export default ComponentWrapper;

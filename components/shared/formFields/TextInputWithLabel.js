@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { ErrorMessage } from 'formik';
 import PropTypes from 'prop-types';
@@ -16,7 +17,7 @@ export const TextInputWithLabel = ({
       <input {...field} {...props} type={type} placeholder={placeholder} />
     </div>
     <ErrorMessage name={field.name}>
-      {errorMessage => <p>{errorMessage}</p>}
+      {(errorMessage) => <p>{errorMessage}</p>}
     </ErrorMessage>
   </>
 );

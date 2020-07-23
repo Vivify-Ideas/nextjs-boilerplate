@@ -36,6 +36,9 @@ In components folder there are some examples of our forms, they all use custom t
     ├────────── TextInputWithLabel.js
     └── validation
 
+
+### State Management
+
 For state management we use [React Redux](https://github.com/reduxjs/react-redux) with [Redux Saga](https://github.com/redux-saga/redux-saga) and [Reselect](https://github.com/reduxjs/reselect).
 
     ├── store
@@ -45,17 +48,14 @@ For state management we use [React Redux](https://github.com/reduxjs/react-redux
     ├──── selectors
     └──── sagas
 
-For localization we have `$t` wrapper around [I18n-js](https://github.com/fnando/i18n-js) library.
+### Localization
 
-To use it all you need to do is:
+For more details check out [next-i18next](https://github.com/isaachinman/next-i18next).
 
-```
-import $t from 'path to i18n folder';
+### Route Guards
 
-$t('common.ok');
-```
-
-For `RouteGuard` we use HOC, you can find examples in `utils/hoc`.
+There are HOC made for this (`withAuth`, `withGuest`).
+You can find examples in `utils/hoc`.
 
 Logged in user is beeing `server side rendered` you can find the code in `pages/_app.js` in `getInitialProps` method.
 

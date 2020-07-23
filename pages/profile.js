@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import withIsPrivate from '../utils/hoc/withIsPrivate';
+import withAuth from '../utils/hoc/withAuth';
 import ProfileForm from '../components/profile/ProfileForm';
 import {
   makeSelectUserData,
@@ -20,12 +20,12 @@ const Profile = () => {
   const passwordChangeState = useSelector(makeSelectUserPasswordChangeState());
   const isPasswordFormLoading = useSelector(makeSelectUserPasswordLoader());
 
-  const handleProfileEdit = useCallback(data => dispatch(userEdit(data)), [
+  const handleProfileEdit = useCallback((data) => dispatch(userEdit(data)), [
     dispatch
   ]);
 
   const handlePasswordChange = useCallback(
-    data => dispatch(changePassword(data)),
+    (data) => dispatch(changePassword(data)),
     [dispatch]
   );
 
@@ -46,4 +46,4 @@ const Profile = () => {
   );
 };
 
-export default withIsPrivate(Profile);
+export default withAuth(Profile);

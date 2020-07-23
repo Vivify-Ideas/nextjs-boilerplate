@@ -7,7 +7,7 @@ import {
   makeSelectSignUpLoader
 } from '../store/selectors/SignUpSelector';
 import { signUp } from '../store/actions/SignUpActions';
-import withIsAuth from '../utils/hoc/withIsAuth';
+import withGuest from '../utils/hoc/withGuest';
 
 const SignUp = () => {
   const dispatch = useDispatch();
@@ -15,7 +15,9 @@ const SignUp = () => {
   const signUpError = useSelector(makeSelectSignUpError());
   const isLoading = useSelector(makeSelectSignUpLoader());
 
-  const handleSignUp = useCallback(data => dispatch(signUp(data)), [dispatch]);
+  const handleSignUp = useCallback((data) => dispatch(signUp(data)), [
+    dispatch
+  ]);
 
   return (
     <div>
@@ -29,7 +31,7 @@ const SignUp = () => {
   );
 };
 
-const ComponentWrapper = withIsAuth(SignUp);
+const ComponentWrapper = withGuest(SignUp);
 ComponentWrapper.hideHeader = true;
 
 export default ComponentWrapper;
