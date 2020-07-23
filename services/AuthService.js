@@ -5,7 +5,7 @@ import BaseApiService from './BaseApiService';
 const ENDPOINTS = {
   LOGIN: '/api/auth/login', // replace Next API endpoint
   SIGN_UP: '/auth/register',
-  LOGOUT: '/auth/logout',
+  LOGOUT: '/api/auth/logout',
   FORGOT_PASSWORD: '/user/forgot-password',
   RESET_PASSWORD: '/user/reset-password',
   FACEBOOK: '/auth/social/facebook',
