@@ -2,7 +2,22 @@
 
 If you are using our NextJS boilerplate we recommend you use it with our [laravel](https://github.com/Vivify-Ideas/laravel-boilerplate) boilerplate.
 
-Node version required is 10.16
+
+## **Start**
+
+### Locally
+
+```
+yarn run dev
+```
+
+### Docker
+Build and run your container locally
+
+```
+docker-compose up --build
+```
+
 
 ## **Built in functions**
 
