@@ -3,6 +3,7 @@ import App from 'next/app';
 import React from 'react';
 import cookies from 'next-cookies';
 
+import { appWithTranslation } from '../i18n';
 import { wrapper } from '../store';
 import AuthService from '../services/AuthService';
 import { userGet } from '../store/actions/UserActions';
@@ -36,4 +37,4 @@ class MyApp extends App {
   }
 }
 
-export default wrapper.withRedux(MyApp);
+export default wrapper.withRedux(appWithTranslation(MyApp));

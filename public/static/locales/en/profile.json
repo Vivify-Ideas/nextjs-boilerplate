@@ -1,0 +1,10 @@
+{
+  "changePassword": "Change password",
+  "currentPassword": "Current password",
+  "newPassword": "New password",
+  "confirmNewPassword": "Confirm new password",
+  "change": "Change",
+  "invalidOldPassword": "Old password is incorrect.",
+  "passwordChanged": "Password Changed",
+  "passwordChangedSuccess": "Password has been changed"
+}

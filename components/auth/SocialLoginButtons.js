@@ -12,11 +12,11 @@ const SocialLoginButtons = () => {
   const dispatch = useDispatch();
 
   const handleFacebookLogin = useCallback(
-    data => dispatch(facebookLogin(data)),
+    (data) => dispatch(facebookLogin(data)),
     [dispatch]
   );
 
-  const handleGoogleLogin = useCallback(data => dispatch(googleLogin(data)), [
+  const handleGoogleLogin = useCallback((data) => dispatch(googleLogin(data)), [
     dispatch
   ]);
 

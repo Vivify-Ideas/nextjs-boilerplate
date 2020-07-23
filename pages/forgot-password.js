@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { ForgotPasswordForm } from '../components/auth/ForgotPasswordForm';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   makeSelectPasswordLoader,
   makeSelectForgotPasswordSuccess
@@ -11,24 +11,23 @@ import {
   forgotPasswordSuccessSet
 } from '../store/actions/PasswordResetActions';
 import { RESPONSE_STATES } from '../constants';
-import $t from '../i18n';
+import { useTranslation } from '../i18n';
 
 const ForgotPassword = () => {
+  const { t } = useTranslation('auth');
   const dispatch = useDispatch();
 
   const isLoading = useSelector(makeSelectPasswordLoader());
   const forgotPasswordSuccess = useSelector(makeSelectForgotPasswordSuccess());
 
   const handleForgotPassword = useCallback(
-    data => dispatch(forgotPasswordSend(data)),
+    (data) => dispatch(forgotPasswordSend(data)),
     [dispatch]
   );
   const handleResetForgotPasswordState = () =>
     dispatch(forgotPasswordSuccessSet(RESPONSE_STATES.NO_RESPONSE));
 
-  useEffect(() => {
-    return () => handleResetForgotPasswordState();
-  }, []);
+  useEffect(() => () => handleResetForgotPasswordState(), []);
 
   const forgotPasswordError =
     forgotPasswordSuccess !== RESPONSE_STATES.NO_RESPONSE &&
@@ -43,7 +42,7 @@ const ForgotPassword = () => {
         forgotPasswordError={forgotPasswordError && forgotPasswordSuccess}
       />
       {forgotPasswordSuccess === RESPONSE_STATES.SUCCESS && (
-        <p>{$t('auth.forgotPasswordSuccess')}</p>
+        <p>{t('forgotPasswordSuccess')}</p>
       )}
     </div>
   );

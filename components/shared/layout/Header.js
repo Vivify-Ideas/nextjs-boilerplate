@@ -1,18 +1,19 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { useRouter } from 'next/router';
 import {
   makeSelectUserData,
   makeSelectUserAuthStatus
 } from '../../../store/selectors/UserSelector';
-import $t from '../../../i18n';
+import { useTranslation } from '../../../i18n';
 import { userSignOut } from '../../../store/actions/UserActions';
-import { useRouter } from 'next/router';
 import { PAGES } from '../../../constants/routes';
 
 const Header = () => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const { t } = useTranslation('auth');
 
   const user = useSelector(makeSelectUserData());
   const auth = useSelector(makeSelectUserAuthStatus());
@@ -25,10 +26,14 @@ const Header = () => {
     auth ? (
       <div>
         <p>{`${user.first_name} ${user.last_name}`}</p>
-        <button onClick={handleSignOut}>{$t('auth.signOut')}</button>
+        <button type="button" onClick={handleSignOut}>
+          {t('signOut')}
+        </button>
       </div>
     ) : (
-      <button onClick={navigateToSignIn}>{$t('auth.signIn')}</button>
+      <button type="button" onClick={navigateToSignIn}>
+        {t('signIn')}
+      </button>
     );
 
   return <div>{renderUserHeader()}</div>;

@@ -4,18 +4,19 @@ import cookies from 'next-cookies';
 
 import { PAGES } from '../../constants/routes';
 
-const withIsPrivate = Component => {
-  const Wrapper = props => <Component {...props} />;
+const withGuest = (Component) => {
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  const Wrapper = (props) => <Component {...props} />;
 
   Wrapper.getInitialProps = async ({ ctx }) => {
     const auth = cookies(ctx).access_token;
 
-    if (!auth) {
+    if (auth) {
       if (ctx.res) {
-        ctx.res.writeHead(302, { Location: PAGES.SIGN_IN });
+        ctx.res.writeHead(302, { Location: PAGES.HOME });
         ctx.res.end();
       } else {
-        Router.push(PAGES.SIGN_IN);
+        Router.push(PAGES.HOME);
       }
     }
 
@@ -28,4 +29,4 @@ const withIsPrivate = Component => {
   return Wrapper;
 };
 
-export default withIsPrivate;
+export default withGuest;
