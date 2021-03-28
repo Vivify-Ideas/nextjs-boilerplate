@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const ServerErrors = ({ errors }) => {
-  const getFirstError = () => errors[Object.keys(errors)[0]][0];
+  const getFirstError = () =>
+    errors?.response?.data[Object.keys(errors?.response?.data)];
 
   return <p>{getFirstError()}</p>;
 };

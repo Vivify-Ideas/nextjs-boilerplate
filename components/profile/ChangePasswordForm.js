@@ -6,9 +6,8 @@ import { PasswordInputWithLabel } from '../shared/formFields/PasswordInputWithLa
 import { changePasswordValidationRules } from '../../validation/profile';
 import { useTranslation } from '../../i18n';
 import LoaderWrapper from '../shared/LoaderWrapper';
-import { RESPONSE_STATES } from '../../constants';
 
-const ChangePasswordForm = ({ onSubmit, isLoading, passwordChangeState }) => {
+const ChangePasswordForm = ({ onSubmit, isLoading, error, success }) => {
   const { t } = useTranslation('profile');
   return (
     <LoaderWrapper isLoading={isLoading}>
@@ -28,9 +27,7 @@ const ChangePasswordForm = ({ onSubmit, isLoading, passwordChangeState }) => {
               component={PasswordInputWithLabel}
               placeholder={t('currentPassword')}
             />
-            {passwordChangeState === RESPONSE_STATES.ERROR && (
-              <p>{t('invalidOldPassword')}</p>
-            )}
+            {error && <p>{t('invalidOldPassword')}</p>}
             <Field
               name="new_password"
               component={PasswordInputWithLabel}
@@ -47,9 +44,7 @@ const ChangePasswordForm = ({ onSubmit, isLoading, passwordChangeState }) => {
           </Form>
         )}
       </Formik>
-      {passwordChangeState === RESPONSE_STATES.SUCCESS && (
-        <p>{t('passwordChangedSuccess')}</p>
-      )}
+      {success && <p>{t('passwordChangedSuccess')}</p>}
     </LoaderWrapper>
   );
 };
@@ -57,7 +52,8 @@ const ChangePasswordForm = ({ onSubmit, isLoading, passwordChangeState }) => {
 ChangePasswordForm.propTypes = {
   onSubmit: PropTypes.func,
   isLoading: PropTypes.bool,
-  passwordChangeState: PropTypes.number
+  error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  success: PropTypes.bool
 };
 
 export default ChangePasswordForm;

@@ -6,8 +6,8 @@ const ENDPOINTS = {
   LOGIN: '/api/auth/login', // replace Next API endpoint
   SIGN_UP: '/auth/register',
   LOGOUT: '/api/auth/logout',
-  FORGOT_PASSWORD: '/user/forgot-password',
-  RESET_PASSWORD: '/user/reset-password',
+  FORGOT_PASSWORD: '/api/auth/forgot-password',
+  RESET_PASSWORD: '/api/auth/reset-password',
   FACEBOOK: '/auth/social/facebook',
   GOOGLE: '/auth/social/google'
 };
@@ -26,7 +26,6 @@ class AuthService extends BaseApiService {
 
   login = async (loginData) => {
     const { data } = await this.apiClient.post(ENDPOINTS.LOGIN, loginData);
-
     this.createSession(data);
 
     this.attachAuthHeader(data.access_token);
@@ -60,7 +59,7 @@ class AuthService extends BaseApiService {
     return data;
   };
 
-  signUp = async (signUpData) => {
+  register = async (signUpData) => {
     const { data } = await this.apiClient.post(ENDPOINTS.SIGN_UP, signUpData);
 
     this.createSession(data);
@@ -103,7 +102,6 @@ class AuthService extends BaseApiService {
 
   getToken = () => {
     const token = jsCookie.get('access_token');
-
     return token || null;
   };
 

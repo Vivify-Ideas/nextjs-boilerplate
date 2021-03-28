@@ -1,24 +1,11 @@
-import React, { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
 import FacebookLogin from 'react-facebook-login';
 import GoogleLogin from 'react-google-login';
 import config from '../../config';
-import {
-  facebookLogin,
-  googleLogin
-} from '../../store/actions/SocialLoginActions';
 
 const SocialLoginButtons = () => {
-  const dispatch = useDispatch();
-
-  const handleFacebookLogin = useCallback(
-    (data) => dispatch(facebookLogin(data)),
-    [dispatch]
-  );
-
-  const handleGoogleLogin = useCallback((data) => dispatch(googleLogin(data)), [
-    dispatch
-  ]);
+  const handleFacebookLogin = () => {};
+  const handleGoogleLogin = () => {};
 
   return (
     <div>

@@ -1,30 +1,18 @@
-import React, { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 
 import { SignUpForm } from '../components/auth/SignUpForm';
-import {
-  makeSelectSignUpError,
-  makeSelectSignUpLoader
-} from '../store/selectors/SignUpSelector';
-import { signUp } from '../store/actions/SignUpActions';
+import { useRegister } from '../queries/auth/auth';
 import withGuest from '../utils/hoc/withGuest';
 
 const SignUp = () => {
-  const dispatch = useDispatch();
-
-  const signUpError = useSelector(makeSelectSignUpError());
-  const isLoading = useSelector(makeSelectSignUpLoader());
-
-  const handleSignUp = useCallback((data) => dispatch(signUp(data)), [
-    dispatch
-  ]);
+  const { isLoading, error, mutate } = useRegister();
 
   return (
     <div>
       Sign Up Page
       <SignUpForm
-        onSubmit={handleSignUp}
-        signUpErrors={signUpError}
+        onSubmit={mutate}
+        signUpErrors={error}
         isLoading={isLoading}
       />
     </div>

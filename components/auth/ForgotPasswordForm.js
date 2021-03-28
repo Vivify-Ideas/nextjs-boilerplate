@@ -6,12 +6,9 @@ import { forgotPasswordValidationRules } from '../../validation/auth';
 import { useTranslation } from '../../i18n';
 import { TextInputWithLabel } from '../shared/formFields/TextInputWithLabel';
 import LoaderWrapper from '../shared/LoaderWrapper';
+import ServerErrors from '../shared/ServerErrors';
 
-export const ForgotPasswordForm = ({
-  onSubmit,
-  forgotPasswordError,
-  isLoading
-}) => {
+export const ForgotPasswordForm = ({ onSubmit, error, isLoading }) => {
   const { t } = useTranslation('auth');
 
   return (
@@ -21,21 +18,17 @@ export const ForgotPasswordForm = ({
         onSubmit={onSubmit}
         validationSchema={forgotPasswordValidationRules({ t })}
       >
-        {() => (
-          <Form>
-            <Field
-              name="email"
-              component={TextInputWithLabel}
-              placeholder={t('enterEmail')}
-            />
-            {forgotPasswordError?.email && (
-              <p>{forgotPasswordError.email[0]}</p>
-            )}
-            <button type="submit">
-              <p>{t('submit', { ns: 'common' })}</p>
-            </button>
-          </Form>
-        )}
+        <Form>
+          <Field
+            name="email"
+            component={TextInputWithLabel}
+            placeholder={t('enterEmail')}
+          />
+          {error && <ServerErrors errors={error} />}
+          <button type="submit">
+            <p>{t('submit', { ns: 'common' })}</p>
+          </button>
+        </Form>
       </Formik>
     </LoaderWrapper>
   );
@@ -43,6 +36,6 @@ export const ForgotPasswordForm = ({
 
 ForgotPasswordForm.propTypes = {
   onSubmit: PropTypes.func,
-  forgotPasswordError: PropTypes.bool,
+  error: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
   isLoading: PropTypes.bool
 };

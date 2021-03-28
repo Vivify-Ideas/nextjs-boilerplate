@@ -1,46 +1,29 @@
-import React, { useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useContext } from 'react';
 
 import withAuth from '../utils/hoc/withAuth';
 import ProfileForm from '../components/profile/ProfileForm';
-import {
-  makeSelectUserData,
-  makeSelectUserLoader,
-  makeSelectUserPasswordChangeState,
-  makeSelectUserPasswordLoader
-} from '../store/selectors/UserSelector';
-import { userEdit, changePassword } from '../store/actions/UserActions';
 import ChangePasswordForm from '../components/profile/ChangePasswordForm';
+import { UserContext } from '../context/UserContext';
+import { useUpdateUser, useUpdatePassword } from '../queries/user/user';
 
 const Profile = () => {
-  const dispatch = useDispatch();
-
-  const user = useSelector(makeSelectUserData());
-  const isUserLoading = useSelector(makeSelectUserLoader());
-  const passwordChangeState = useSelector(makeSelectUserPasswordChangeState());
-  const isPasswordFormLoading = useSelector(makeSelectUserPasswordLoader());
-
-  const handleProfileEdit = useCallback((data) => dispatch(userEdit(data)), [
-    dispatch
-  ]);
-
-  const handlePasswordChange = useCallback(
-    (data) => dispatch(changePassword(data)),
-    [dispatch]
-  );
+  const user = useContext(UserContext);
+  const { mutate: handleProfileEdit, isLoading } = useUpdateUser();
+  const { mutate: handlePasswordChange, error, success } = useUpdatePassword();
 
   return (
     <div>
       Profile
       <ProfileForm
-        user={user}
-        isLoading={isUserLoading}
         onSubmit={handleProfileEdit}
+        user={user}
+        isLoading={isLoading}
       />
       <ChangePasswordForm
         onSubmit={handlePasswordChange}
-        isLoading={isPasswordFormLoading}
-        passwordChangeState={passwordChangeState}
+        isLoading={false}
+        error={error}
+        success={success}
       />
     </div>
   );
