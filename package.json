@@ -24,7 +24,7 @@
   "pre-commit": "lint:staged",
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "babel-preset-next": "^1.4.0",
     "dotenv": "^8.2.0",
     "formik": "^2.1.5",
