@@ -8,11 +8,7 @@ import { PasswordInputWithLabel } from '../shared/formFields/PasswordInputWithLa
 import LoaderWrapper from '../shared/LoaderWrapper';
 import ServerErrors from '../shared/ServerErrors';
 
-export const ResetPasswordForm = ({
-  onSubmit,
-  resetPasswordError,
-  isLoading
-}) => {
+export const ResetPasswordForm = ({ onSubmit, error, isLoading }) => {
   const { t } = useTranslation('auth');
 
   return (
@@ -34,7 +30,7 @@ export const ResetPasswordForm = ({
               component={PasswordInputWithLabel}
               placeholder={t('confirmPass')}
             />
-            {resetPasswordError && <ServerErrors errors={resetPasswordError} />}
+            {error && <ServerErrors errors={error} />}
             <button type="submit">
               <p>{t('submit', { ns: 'common' })}</p>
             </button>
@@ -48,5 +44,5 @@ export const ResetPasswordForm = ({
 ResetPasswordForm.propTypes = {
   onSubmit: PropTypes.func,
   isLoading: PropTypes.bool,
-  resetPasswordError: PropTypes.object
+  error: PropTypes.oneOfType([PropTypes.bool, PropTypes.object])
 };

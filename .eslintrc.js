@@ -39,6 +39,7 @@ module.exports = {
     'consistent-return': 0,
     'default-case': 0,
     'jsx-a11y/no-noninteractive-element-interactions': 0,
+    'react/jsx-props-no-spreading': 0,
     radix: 1,
     'no-plusplus': 0,
     'jsx-a11y/aria-props': 2,

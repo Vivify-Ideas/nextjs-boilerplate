@@ -1,29 +1,21 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useContext } from 'react';
 
 import { useRouter } from 'next/router';
-import {
-  makeSelectUserData,
-  makeSelectUserAuthStatus
-} from '../../../store/selectors/UserSelector';
 import { useTranslation } from '../../../i18n';
-import { userSignOut } from '../../../store/actions/UserActions';
 import { PAGES } from '../../../constants/routes';
+import { UserContext } from '../../../context/UserContext';
+import { useLogout } from '../../../queries/auth/auth';
 
 const Header = () => {
-  const dispatch = useDispatch();
   const router = useRouter();
   const { t } = useTranslation('auth');
-
-  const user = useSelector(makeSelectUserData());
-  const auth = useSelector(makeSelectUserAuthStatus());
-
-  const handleSignOut = () => dispatch(userSignOut());
+  const user = useContext(UserContext);
+  const { mutate: handleSignOut } = useLogout();
 
   const navigateToSignIn = () => router.push(PAGES.SIGN_IN);
 
   const renderUserHeader = () =>
-    auth ? (
+    user ? (
       <div>
         <p>{`${user.first_name} ${user.last_name}`}</p>
         <button type="button" onClick={handleSignOut}>

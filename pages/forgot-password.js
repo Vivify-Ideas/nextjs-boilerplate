@@ -1,49 +1,23 @@
-import React, { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 
 import { ForgotPasswordForm } from '../components/auth/ForgotPasswordForm';
-import {
-  makeSelectPasswordLoader,
-  makeSelectForgotPasswordSuccess
-} from '../store/selectors/PasswordResetSelector';
-import {
-  forgotPasswordSend,
-  forgotPasswordSuccessSet
-} from '../store/actions/PasswordResetActions';
-import { RESPONSE_STATES } from '../constants';
 import { useTranslation } from '../i18n';
+import { useForgotPassword } from '../queries/auth/auth';
 
 const ForgotPassword = () => {
   const { t } = useTranslation('auth');
-  const dispatch = useDispatch();
 
-  const isLoading = useSelector(makeSelectPasswordLoader());
-  const forgotPasswordSuccess = useSelector(makeSelectForgotPasswordSuccess());
-
-  const handleForgotPassword = useCallback(
-    (data) => dispatch(forgotPasswordSend(data)),
-    [dispatch]
-  );
-  const handleResetForgotPasswordState = () =>
-    dispatch(forgotPasswordSuccessSet(RESPONSE_STATES.NO_RESPONSE));
-
-  useEffect(() => () => handleResetForgotPasswordState(), []);
-
-  const forgotPasswordError =
-    forgotPasswordSuccess !== RESPONSE_STATES.NO_RESPONSE &&
-    forgotPasswordSuccess !== RESPONSE_STATES.SUCCESS;
+  const { isLoading, error, mutate, isSuccess } = useForgotPassword();
 
   return (
     <div>
       Forgot Password
       <ForgotPasswordForm
-        onSubmit={handleForgotPassword}
+        onSubmit={mutate}
         isLoading={isLoading}
-        forgotPasswordError={forgotPasswordError && forgotPasswordSuccess}
+        error={error}
       />
-      {forgotPasswordSuccess === RESPONSE_STATES.SUCCESS && (
-        <p>{t('forgotPasswordSuccess')}</p>
-      )}
+      {isSuccess && <p>{t('forgotPasswordSuccess')}</p>}
     </div>
   );
 };

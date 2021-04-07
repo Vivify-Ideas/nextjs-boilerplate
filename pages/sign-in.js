@@ -1,31 +1,17 @@
-import React, { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 
 import { SignInForm } from '../components/auth/SignInForm';
-import {
-  makeSelectSignInError,
-  makeSelectSignInLoader
-} from '../store/selectors/SignInSelector';
-import { signIn } from '../store/actions/SignInActions';
 import SocialLoginButtons from '../components/auth/SocialLoginButtons';
+import { useLogin } from '../queries/auth/auth';
 import withGuest from '../utils/hoc/withGuest';
 
 const SignIn = () => {
-  const dispatch = useDispatch();
-
-  const signInError = useSelector(makeSelectSignInError());
-  const isLoading = useSelector(makeSelectSignInLoader());
-
-  const handleSignIn = useCallback((data) => dispatch(signIn(data)));
+  const { isLoading, error, mutate } = useLogin();
 
   return (
     <div>
       Sign In Page
-      <SignInForm
-        onSubmit={handleSignIn}
-        signInError={signInError}
-        isLoading={isLoading}
-      />
+      <SignInForm onSubmit={mutate} signInError={error} isLoading={isLoading} />
       <SocialLoginButtons />
     </div>
   );
